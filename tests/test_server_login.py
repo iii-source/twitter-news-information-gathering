@@ -40,7 +40,3 @@ def get_request(url, payload):
         jsonパースしたResponseデータ
     """
     return requests.get(url, json=payload).json()
-
-
-test_server_login01()
-test_server_login02()
