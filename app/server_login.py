@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request
 # from .information_gathering import tweet_main
+from common.db import postgre_sample2 as postgre
 
 app = Flask(__name__)
 
@@ -15,6 +16,11 @@ def login():
         return '401'
 
 
+@app.route('/news/<newsid>', methods=["GET"])
+def news(newsid):
+    return postgre.select(connector, cursor, newsid)
+
+
 # # TODO メイン処理呼び出し
 # @app.route('/tweet_main', methods=["GET", "POST"])
 # def main():
@@ -22,5 +28,6 @@ def login():
 
 
 if __name__ == '__main__':
+    connector, cursor = postgre.connect_db()
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
