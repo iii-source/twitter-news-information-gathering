@@ -5,3 +5,11 @@ select_get_news:
     test_table
   where
     test_id = %s
+
+select_get_news_all:
+  select
+    *
+  from
+    test_table
+  order by
+    test_id
