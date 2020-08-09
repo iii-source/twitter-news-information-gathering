@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request
 # from .information_gathering import tweet_main
+from app import sql_id_yaml
 from common.db import postgre_sample2 as postgres
 from common.response_message import response, error_response
 
@@ -19,7 +20,10 @@ def login():
 
 @app.route('/news/<newsid>', methods=["GET"])
 def news(newsid):
-    return postgres_instance.select(newsid)
+    return postgres_instance.select(
+        sql_id_yaml['select_get_news'],
+        newsid
+    )
 
 
 # # TODO メイン処理呼び出し
