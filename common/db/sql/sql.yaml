@@ -1,0 +1,7 @@
+select_get_news:
+  select
+    *
+  from
+    test_table
+  where
+    test_id = %s
