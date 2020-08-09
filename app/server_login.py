@@ -26,6 +26,13 @@ def news(newsid):
     )
 
 
+@app.route('/news/', methods=["GET"])
+def news_all():
+    return postgres_instance.select(
+        sql_id_yaml['select_get_news_all']
+    )
+
+
 # # TODO メイン処理呼び出し
 # @app.route('/tweet_main', methods=["GET", "POST"])
 # def main():
