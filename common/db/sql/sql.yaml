@@ -2,14 +2,14 @@ select_get_news:
   select
     *
   from
-    test_table
+    news
   where
-    test_id = %s
+    newsid = %s
 
 select_get_news_all:
   select
     *
   from
-    test_table
+    news
   order by
-    test_id
+    newsid
