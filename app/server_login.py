@@ -2,7 +2,7 @@ import os
 from flask import Flask, request
 # from .information_gathering import tweet_main
 from app import sql_id_yaml
-from common.db import postgre_sample2 as postgres
+from common.db import Database as Database
 from common.response_message import response, error_response
 
 app = Flask(__name__)
@@ -40,6 +40,6 @@ def news_all():
 
 
 if __name__ == '__main__':
-    postgres_instance = postgres.PostgresSample2()
+    postgres_instance = Database.Database()
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
