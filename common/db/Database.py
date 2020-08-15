@@ -64,6 +64,32 @@ class Database:
         self.release_cursor()
         return result_dict
 
+    def update(self, sql_id_yaml, set_value, where_id):
+        self.get_cursor()
+        stmt = sql_yaml[sql_id_yaml]
+        try:
+            self.cursor.execute(stmt, (set_value, where_id))
+        except (psycopg2.errors.UndefinedColumn,
+                psycopg2.errors.InvalidTextRepresentation):
+            logging.error('30', exc_info=True)
+            self.connector.rollback()
+            return error_response.error_response_400()
+        except psycopg2.errors.InFailedSqlTransaction:
+            # カーソル解放失敗した場合など
+            logging.error('40', exc_info=True)
+            self.connector.rollback()
+            return error_response.error_response_500()
+
+        # TODO update対象レコードが見つからなかった場合
+        result = self.cursor.fetchone()
+        print(result)
+
+        # updateが正常終了した場合
+        # カーソル解放
+        self.release_cursor()
+        self.connector.commit()
+        return response.response_200_put()
+
     # TODO メンテナンス用
     def close(self):
         self.cursor.close()

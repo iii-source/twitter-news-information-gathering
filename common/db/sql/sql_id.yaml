@@ -1,2 +1,3 @@
 select_get_news: select_get_news
 select_get_news_all: select_get_news_all
+put_news: put_news

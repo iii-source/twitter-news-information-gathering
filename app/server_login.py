@@ -26,6 +26,15 @@ def news(newsid):
     )
 
 
+@app.route('/news/<newsid>', methods=["PUT"])
+def put_news(newsid):
+    return postgres_instance.update(
+        sql_id_yaml['put_news'],
+        request.get_json()['description'],
+        newsid
+    )
+
+
 @app.route('/news/', methods=["GET"])
 def news_all():
     return postgres_instance.select(

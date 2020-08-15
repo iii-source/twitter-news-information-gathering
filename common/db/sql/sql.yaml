@@ -6,6 +6,16 @@ select_get_news:
   where
     newsid = %s
 
+put_news:
+  update
+    news
+  set
+    description = %s
+  where
+    newsid = %s
+  returning
+    *
+
 select_get_news_all:
   select
     *

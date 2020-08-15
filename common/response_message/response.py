@@ -8,6 +8,13 @@ def response_200():
     return response_dict
 
 
+def response_200_put():
+    response_dict = {}
+    response_dict['message'] = 'Updated successfully.'
+    response_dict['code'] = 200
+    return response_dict
+
+
 def response_401():
     response_dict = {}
     response_dict['message'] = 'certification failed.'
