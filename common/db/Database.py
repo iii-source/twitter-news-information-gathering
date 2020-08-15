@@ -80,9 +80,9 @@ class Database:
             self.connector.rollback()
             return error_response.error_response_500()
 
-        # TODO update対象レコードが見つからなかった場合
-        result = self.cursor.fetchone()
-        print(result)
+        # レコードが0件の場合
+        if self.cursor.fetchone() is None:
+            return response.response_404()
 
         # updateが正常終了した場合
         # カーソル解放
