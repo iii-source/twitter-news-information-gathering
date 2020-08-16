@@ -8,6 +8,13 @@ def response_200():
     return response_dict
 
 
+def response_200_post():
+    response_dict = {}
+    response_dict['message'] = 'Inserted successfully.'
+    response_dict['code'] = 200
+    return response_dict
+
+
 def response_200_put():
     response_dict = {}
     response_dict['message'] = 'Updated successfully.'

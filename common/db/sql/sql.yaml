@@ -6,6 +6,23 @@ select_get_news:
   where
     newsid = %s
 
+post_news:
+  insert into
+    news
+    (
+      news_date,
+      url,
+      description
+    )
+  values
+    (
+      %s,
+      %s,
+      %s
+    )
+  returning
+    *
+
 put_news:
   update
     news
