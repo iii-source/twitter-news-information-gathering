@@ -1,4 +1,4 @@
-import requests
+from tests import requests_operation as ro
 
 URL_REF = 'https://iii-source.github.io/public/' \
           'swagger_ui/tweet_news/docs/dist/'
@@ -7,7 +7,7 @@ URL_REF = 'https://iii-source.github.io/public/' \
 # 正常系 通常取得
 def test_news_all01():
     # リクエストAPI用jsonデータ作成
-    result = get_request(get_url())
+    result = ro.get_request(get_url())
     for i, record in enumerate(result['records']):
         if i == 0:
             assert record['newsid'] == 1
@@ -26,20 +26,3 @@ def test_news_all01():
 def get_url():
     # テスト対象のURLを定義
     return 'http://localhost:5000/news/'
-
-
-def get_request(url):
-    """
-    getAPI用リクエスト
-
-    Parameters
-    ----------
-    url : string
-        リクエスト用url
-
-    Returns
-    -------
-    request_data : dict
-        jsonパースしたResponseデータ
-    """
-    return requests.get(url).json()

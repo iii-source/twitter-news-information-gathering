@@ -1,4 +1,4 @@
-import requests
+from tests import requests_operation as ro
 import pytest
 
 URL_REF = 'https://iii-source.github.io/public/' \
@@ -9,7 +9,7 @@ URL_REF = 'https://iii-source.github.io/public/' \
 @pytest.fixture(scope="module")
 def constant_newsid():
     # インクリメント確認用
-    result = get_request(get_url())
+    result = ro.get_request(get_url())
     # listの中で一番価の高いnewsidを取得
     return max(record['newsid'] for record in result['records'])
 
@@ -28,7 +28,7 @@ def test_news_post01():
         'url': 'https://post-test',
         'description': 'description_test_from_pytest'
     }
-    result = post_request(get_url(), payload)
+    result = ro.post_request(get_url(), payload)
     assert result['message'] == 'Inserted successfully.'
     assert result['code'] == 200
 
@@ -36,7 +36,7 @@ def test_news_post01():
 # 正しくインクリメントされているか確認
 def test_news_post02(constant_newsid):
     # 全レコード取得
-    result = get_request(get_url())
+    result = ro.get_request(get_url())
     # 挿入前最新newsid + 1 = 新しく挿入されたnewsid
     expected_1 = int(constant_newsid) + 1
     # 全レコード内から最新newsidを取得
@@ -48,7 +48,7 @@ def test_news_post02(constant_newsid):
 # 正常系 挿入が正しく出来ているか確認
 def test_news_post03(constant_newsid):
     # 全レコードを取得
-    result = get_request(get_url())
+    result = ro.get_request(get_url())
     # 挿入前最新newsid + 1
     before_update_newsid = int(constant_newsid) + 1
     # reversed(result['records'] = 最新レコードのみで判定を行う
@@ -72,39 +72,3 @@ def test_news_post03(constant_newsid):
 def get_url():
     # テスト対象のURLを定義
     return 'http://localhost:5000/news/'
-
-
-def get_request(url):
-    """
-    getAPI用リクエスト
-
-    Parameters
-    ----------
-    url : string
-        リクエスト用url
-
-    Returns
-    -------
-    request_data : dict
-        jsonパースしたResponseデータ
-    """
-    return requests.get(url).json()
-
-
-def post_request(url, payload):
-    """
-    getAPI用リクエスト
-
-    Parameters
-    ----------
-    url : string
-        リクエスト用url
-    payload : dict
-        リクエスト用データ
-
-    Returns
-    -------
-    request_data : dict
-        jsonパースしたResponseデータ
-    """
-    return requests.post(url, json=payload).json()
