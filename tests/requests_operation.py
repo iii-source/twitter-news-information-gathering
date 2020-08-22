@@ -73,3 +73,20 @@ def put_request(url, payload):
         jsonパースしたResponseデータ
     """
     return requests.put(url, json=payload).json()
+
+
+def delete_request(url):
+    """
+    getAPI用リクエスト
+
+    Parameters
+    ----------
+    url : string
+        リクエスト用url
+
+    Returns
+    -------
+    request_data : dict
+        jsonパースしたResponseデータ
+    """
+    return requests.delete(url).json()
