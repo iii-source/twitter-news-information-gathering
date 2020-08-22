@@ -33,6 +33,15 @@ put_news:
   returning
     *
 
+delete_news:
+  delete
+  from
+    news
+  where
+    newsid = %s
+  returning
+    *
+
 select_get_news_all:
   select
     *

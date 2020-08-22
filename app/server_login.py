@@ -35,6 +35,14 @@ def put_news(newsid):
     )
 
 
+@app.route('/news/<newsid>', methods=["DELETE"])
+def delete_news(newsid):
+    return postgres_instance.delete(
+        sql_id_yaml['delete_news'],
+        newsid
+    )
+
+
 @app.route('/news/', methods=["GET"])
 def news_all():
     return postgres_instance.select(
