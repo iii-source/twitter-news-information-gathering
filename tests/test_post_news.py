@@ -33,6 +33,7 @@ def test_news_post01():
     assert result['code'] == 200
 
 
+# TODO 後処理でSERIALをリセットしないと失敗するため改善予定
 # 正しくインクリメントされているか確認
 def test_news_post02(constant_newsid):
     # 全レコード取得
