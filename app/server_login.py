@@ -4,6 +4,7 @@ from flask import Flask, request
 from app import sql_id_yaml
 from common.db import Database as Database
 from common.response_message import response, error_response
+from common.validate.validate import validate_schema
 
 app = Flask(__name__)
 
@@ -26,7 +27,9 @@ def news(newsid):
     )
 
 
+# TODO デコレーターからデコレーター呼び出し validate_schema(validate_json)
 @app.route('/news/<newsid>', methods=["PUT"])
+@validate_schema
 def put_news(newsid):
     return postgres_instance.update(
         sql_id_yaml['put_news'],
@@ -51,6 +54,7 @@ def news_all():
 
 
 @app.route('/news/', methods=["POST"])
+@validate_schema
 def post_news():
     return postgres_instance.insert(
         sql_id_yaml['post_news'],

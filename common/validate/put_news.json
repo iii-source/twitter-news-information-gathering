@@ -1,0 +1,21 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "examples": [
+        {
+            "description": "description_for_json_test"
+        }
+    ],
+    "required": [
+        "description"
+    ],
+    "properties": {
+        "description": {
+            "type": "string",
+            "examples": [
+                "description_for_json_test"
+            ]
+        }
+    },
+    "additionalProperties": false
+}
