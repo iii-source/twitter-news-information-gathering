@@ -1,8 +1,30 @@
+from common.response_message.error_response import error_response_400
 from tests import requests_operation as ro
+from tests.tests_data_param import post_news_param as td
 import pytest
 
 URL_REF = 'https://iii-source.github.io/public/' \
           'swagger_ui/tweet_news/docs/dist/'
+
+
+# TODO 1 テストケースごとにパラメータを取得
+# TODO 2 1で取得したパラメータをset_post_newsに渡しpayload作成
+# TODO 3 12の処理をテストケース開始前にfixtureで事前に作成可能にすること
+# 1テストケースごとに呼ばれる 引数に渡した数だけインスタンスが生成される
+def set_post_news(inputs):
+    # [0]: news_date, [1]: url, [2]: description
+    return td.PostNews(news_date=inputs[0], url=inputs[1], description=inputs[2])
+
+
+# inputsによって作成するdictionaryを動的に作成可能にする。
+def set_post_news01(inputs):
+    # [0]: news_date, [1]: url, [2]: description
+    if inputs[0] is None:
+        return td.PostNews(url=inputs[1], description=inputs[2])
+    elif inputs[1] is None:
+        return td.PostNews(news_date=inputs[0], description=inputs[2])
+    elif inputs[2] is None:
+        return td.PostNews(news_date=inputs[0], url=inputs[1])
 
 
 # 全テストで使用予定
@@ -22,12 +44,14 @@ def test_advance_preparation(constant_newsid):
 
 # 正常系 通常挿入
 def test_news_post01():
-    # リクエストAPI用jsonデータ作成
-    payload = {
-        'news_date': '2020-08-14',
-        'url': 'https://post-test',
-        'description': 'description_test_from_pytest'
-    }
+    # dict_valueをlistに加工
+    insert = list(td.get_test_news_post01().values())
+    # listをアンパックしpayloadのパラメーターを取得
+    insert_param = insert[0]
+    # payload用インスタンス作成
+    po = set_post_news(insert_param)
+    # 作成したpayloadを取得
+    payload = po.get_news_param()
     result = ro.post_request(get_url(), payload)
     assert result['message'] == 'Inserted successfully.'
     assert result['code'] == 200
@@ -52,14 +76,61 @@ def test_news_post03(constant_newsid):
     result = ro.get_request(get_url())
     # 挿入前最新newsid + 1
     before_update_newsid = int(constant_newsid) + 1
+
+    # dict_valueをlistに加工
+    insert = list(td.get_test_news_post01().values())
+    # listをアンパックしpayloadのパラメーターを取得
+    insert_param = insert[0]
+    # payload用インスタンス作成
+    po = set_post_news(insert_param)
+    # 作成したpayloadを取得
+    payload = po.get_news_param()
     # reversed(result['records'] = 最新レコードのみで判定を行う
-    # = 今回追加したレコードのみ判定を行う
+    # = 今回追加したレコード(test_news_post01で使用したパラメータ)のみ判定を行う
     for record in reversed(result['records']):
         assert record['newsid'] == before_update_newsid
-        assert record['news_date'] == '2020-08-14'
-        assert record['url'] == 'https://post-test'
-        assert record['description'] == 'description_test_from_pytest'
+        assert record['news_date'] == payload['news_date']
+        assert record['url'] == payload['url']
+        assert record['description'] == payload['description']
         break
+
+
+#  TODO 期待値データ 判定予定 中身を1つ1つ精査するのではなく全てひと塊で判定する
+error_response_400
+
+
+# 異常系 不正なデータ型(API bodyのデータ型が仕様と異なる場合)
+@pytest.mark.parametrize("inputs", list(td.get_test_news_post05().values()),
+                         ids=list(td.get_test_news_post05().keys()))
+def test_news_post05(inputs):
+    # ※下記でも実施可能だが可読性を考慮し別パターンで実装
+    # PostNewsインスタンスを作成しbad_newsインスタンス変数を取得(不正データ実行用payload取得)
+    # payload = set_post_news(inputs).__dict__.get('payload')
+
+    # payload用インスタンス作成
+    po = set_post_news(inputs)
+    # 作成したpayloadを取得
+    payload = po.get_news_param()
+    # 不正データ実行
+    result = ro.post_request(get_url(), payload)
+    assert result['message'] == 'Bad Request'
+    assert result['errors']['code'] == 400
+    assert result['errors']['url_ref'] == URL_REF
+
+
+# 異常系 不正なkey(API bodyのデータの必須keyがない場合)
+@pytest.mark.parametrize("inputs", list(td.get_test_news_post06().values()),
+                         ids=list(td.get_test_news_post06().keys()))
+def test_news_post06(inputs):
+    # payload用インスタンス作成
+    po = set_post_news01(inputs)
+    # 作成したpayloadを取得
+    payload = po.get_news_param()
+    result = ro.post_request(get_url(), payload)
+
+    assert result['message'] == 'Bad Request'
+    assert result['errors']['code'] == 400
+    assert result['errors']['url_ref'] == URL_REF
 
 
 # # TODO 事後処理 テストデータ整理  fixture
