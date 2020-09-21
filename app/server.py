@@ -5,11 +5,14 @@ from app import sql_id_yaml
 from common.db import Database as Database
 from common.response_message import response, error_response
 from common.validate.validate import validate_schema
+from flask_httpauth import HTTPBasicAuth
 
 app = Flask(__name__)
+auth = HTTPBasicAuth()
 
 
 @app.route('/user/login', methods=["GET"])
+@auth.login_required
 def login():
     if request.get_json()['API_KEY'] == os.environ.get('API_KEY'):
         # # 認証OKの場合
@@ -17,6 +20,21 @@ def login():
     else:
         # 認証NGの場合
         return response.response_401()
+
+
+@auth.get_password
+def __get_authentication(username):
+    # DBにあるuser passを取得
+    get_results = postgres_instance.select(
+        sql_id_yaml['select_get_users_all']
+    )
+    # APIのuser pass とDBのuser passを照合
+    for get_result in get_results['records']:
+        if username == get_result['user_name']:
+            # APIと一致するDBの値で認証される
+            return get_result['password']
+    # 一致しなかった場合はUnauthorized Accessが返される(Noneで認証判定されNGが出る)
+    return None
 
 
 @app.route('/news/<newsid>', methods=["GET"])

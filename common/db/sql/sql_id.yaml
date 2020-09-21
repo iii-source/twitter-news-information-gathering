@@ -1,5 +1,6 @@
 select_get_news: select_get_news
 select_get_news_all: select_get_news_all
+select_get_users_all: select_get_users_all
 put_news: put_news
 post_news: post_news
 delete_news: delete_news

@@ -49,3 +49,11 @@ select_get_news_all:
     news
   order by
     newsid
+
+select_get_users_all:
+  select
+    user_name,
+    password
+  from
+    users
+
