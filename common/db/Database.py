@@ -90,11 +90,11 @@ class Database:
         self.connector.commit()
         return response.response_200_post()
 
-    def update(self, sql_id_yaml, set_value, where_id):
+    def update(self, sql_id_yaml, *set_value, where_id):
         self.get_cursor()
         stmt = sql_yaml[sql_id_yaml]
         try:
-            self.cursor.execute(stmt, (set_value, where_id))
+            self.cursor.execute(stmt, (*set_value, where_id))
         except (psycopg2.errors.UndefinedColumn,
                 psycopg2.errors.InvalidTextRepresentation):
             logging.error('30', exc_info=True)

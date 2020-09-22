@@ -49,8 +49,8 @@ def news(newsid):
 def put_news(newsid):
     return postgres_instance.update(
         sql_id_yaml['put_news'],
-        request.get_json()['description'],
-        newsid
+        *list(request.get_json().values()),
+        where_id=newsid
     )
 
 
