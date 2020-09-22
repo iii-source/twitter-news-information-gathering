@@ -1,6 +1,9 @@
 select_get_news: select_get_news
+get_users_login: get_users_login
 select_get_news_all: select_get_news_all
 select_get_users_all: select_get_users_all
 put_news: put_news
+put_users_login_login_time: put_users_login_login_time
+put_users_login_token_login_time: put_users_login_token_login_time
 post_news: post_news
 delete_news: delete_news

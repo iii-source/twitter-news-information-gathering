@@ -6,6 +6,16 @@ select_get_news:
   where
     newsid = %s
 
+get_users_login:
+  select
+    user_name,
+    token,
+    login_time
+  from
+    users_login
+  where
+    user_name = %s
+
 post_news:
   insert into
     news
@@ -30,6 +40,27 @@ put_news:
     description = %s
   where
     newsid = %s
+  returning
+    *
+
+put_users_login_login_time:
+  update
+    users_login
+  set
+    login_time = %s
+  where
+    user_name = %s
+  returning
+    *
+
+put_users_login_token_login_time:
+  update
+    users_login
+  set
+    token = %s,
+    login_time = %s
+  where
+    user_name = %s
   returning
     *
 

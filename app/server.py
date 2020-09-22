@@ -2,6 +2,7 @@ import os
 from flask import Flask, request
 # from .information_gathering import tweet_main
 from app import sql_id_yaml
+from app import AuthorizationUuid
 from common.db import Database as Database
 from common.response_message import response, error_response
 from common.validate.validate import validate_schema
@@ -14,12 +15,9 @@ auth = HTTPBasicAuth()
 @app.route('/user/login', methods=["GET"])
 @auth.login_required
 def login():
-    if request.get_json()['API_KEY'] == os.environ.get('API_KEY'):
-        # # 認証OKの場合
-        return response.response_200()
-    else:
-        # 認証NGの場合
-        return response.response_401()
+    # _get_authentication実施し、認証OK後の処理
+    auth_uuid = AuthorizationUuid.AuthorizationUuid(postgres_instance, auth)
+    return auth_uuid.users_login()
 
 
 @auth.get_password
