@@ -12,19 +12,28 @@ URL_REF = 'https://iii-source.github.io/public/' \
 # TODO 3 12の処理をテストケース開始前にfixtureで事前に作成可能にすること
 # 1テストケースごとに呼ばれる 引数に渡した数だけインスタンスが生成される
 def set_post_news(inputs):
-    # [0]: news_date, [1]: url, [2]: description
-    return td.PostNews(news_date=inputs[0], url=inputs[1], description=inputs[2])
+    # [0]: news_date, [1]: url, [2]: title, [3]: description
+    return td.PostNews(news_date=inputs[0], url=inputs[1],
+                       title=inputs[2], description=inputs[3])
 
 
 # inputsによって作成するdictionaryを動的に作成可能にする。
 def set_post_news01(inputs):
-    # [0]: news_date, [1]: url, [2]: description
+    # [0]: news_date, [1]: url, [2]: title, [3]: description
+    # 各パラメーター必須チェック
     if inputs[0] is None:
-        return td.PostNews(url=inputs[1], description=inputs[2])
+        # news_date None
+        return td.PostNews(url=inputs[1], title=inputs[2], description=inputs[3])
     elif inputs[1] is None:
-        return td.PostNews(news_date=inputs[0], description=inputs[2])
+        # url None
+        return td.PostNews(news_date=inputs[0], title=inputs[2], description=inputs[3])
     elif inputs[2] is None:
-        return td.PostNews(news_date=inputs[0], url=inputs[1])
+        # title None
+        return td.PostNews(news_date=inputs[0], url=inputs[1], description=inputs[3])
+    elif inputs[3] is None:
+        # description None
+        return td.PostNews(news_date=inputs[0], url=inputs[1], title=inputs[2])
+
 
 
 # 全テストで使用予定
@@ -91,6 +100,7 @@ def test_news_post03(constant_newsid):
         assert record['newsid'] == before_update_newsid
         assert record['news_date'] == payload['news_date']
         assert record['url'] == payload['url']
+        assert record['title'] == payload['title']
         assert record['description'] == payload['description']
         break
 

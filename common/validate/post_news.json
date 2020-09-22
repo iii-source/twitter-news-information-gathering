@@ -5,12 +5,14 @@
         {
             "news_date": "2020-08-10",
             "url": "https://hoooooo",
+            "title": "This is title_example",
             "description": "description_for_json_test"
         }
     ],
     "required": [
         "news_date",
         "url",
+        "title",
         "description"
     ],
     "properties": {
@@ -24,6 +26,12 @@
             "type": "string",
             "examples": [
                 "https://hoooooo"
+            ]
+        },
+        "title": {
+            "type": "string",
+            "examples": [
+                "This is title_example"
             ]
         },
         "description": {

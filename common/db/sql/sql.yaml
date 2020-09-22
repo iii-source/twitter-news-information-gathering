@@ -22,10 +22,12 @@ post_news:
     (
       news_date,
       url,
+      title,
       description
     )
   values
     (
+      %s,
       %s,
       %s,
       %s
