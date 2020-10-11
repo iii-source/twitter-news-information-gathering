@@ -1,6 +1,8 @@
 import os
+import requests
+import pprint
 from flask import Flask, request
-# from .information_gathering import tweet_main
+from app import information_gathering as info_gathe
 from app import sql_id_yaml
 from app import AuthorizationUuid
 from common.db import Database as Database
@@ -77,10 +79,36 @@ def post_news():
         list(request.get_json().values())
     )
 
-# # TODO メイン処理呼び出し
-# @app.route('/tweet_main', methods=["GET", "POST"])
-# def main():
-#     tweet_main()
+
+# TODO ここら辺全般の処理を外出ししたい デコレーターを使用してチェックしたい(ここに書きたくない)
+@app.route('/tweet_main', methods=["GET", "POST"])
+def main():
+    # DB格納用データ twitterより取得
+    result_list = info_gathe.tweet_main()
+    # DBへ格納可能か判定用既存データ取得
+    news_list = requests.get('http://localhost:5000/news/').json()
+    # DBに新規登録するnews情報のリスト
+    register_news_list = []
+    # 存在判定用リスト
+    url_list = []
+
+    # news_list: 現在DBにあるnews一覧
+    for news in news_list['records']:
+        url_list.append(news['url'])
+
+    # result_list: 現在twitterから取得してきたnews一覧
+    for result in result_list:
+        # twitterAPIで取得したnewのurlが現在DBにあるurlと一致していない(新規news)
+        if result['url'] not in url_list:
+            # 現在のDBに存在しないurlの場合登録
+            register_news_list.append(result)
+
+    pprint.pprint(register_news_list)
+
+    # TODO 取得したjsonデータをnewsテーブルに格納 post_newsを呼び出す。
+    for register_news in register_news_list:
+        requests.post('http://localhost:5000/news/', json=register_news).json()
+    return 'OK'
 
 
 if __name__ == '__main__':
