@@ -105,10 +105,10 @@ def main():
 
     pprint.pprint(register_news_list)
 
-    # TODO 取得したjsonデータをnewsテーブルに格納 post_newsを呼び出す。
+    # 取得したjsonデータをnewsテーブルに格納 post_newsを呼び出す。
     for register_news in register_news_list:
         requests.post('http://localhost:5000/news/', json=register_news).json()
-    return 'OK'
+    return response.response_200_tweet_main
 
 
 if __name__ == '__main__':

@@ -15,6 +15,13 @@ def response_200_post():
     return response_dict
 
 
+def response_200_tweet_main():
+    response_dict = {}
+    response_dict['message'] = 'Twitter news update was successful.'
+    response_dict['code'] = 200
+    return response_dict
+
+
 def response_200_put():
     response_dict = {}
     response_dict['message'] = 'Updated successfully.'
