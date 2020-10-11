@@ -3,3 +3,4 @@ requests_oauthlib
 yaml
 pytest
 jsonschema
+dateutil
