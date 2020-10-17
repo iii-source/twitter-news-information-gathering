@@ -6,7 +6,17 @@ select_get_news:
   where
     newsid = %s
 
-get_users_login:
+get_users_login_user_name:
+  select
+    user_name,
+    token,
+    login_time
+  from
+    users_login
+  where
+    user_name = %s
+
+get_users_login_token:
   select
     user_name,
     token,

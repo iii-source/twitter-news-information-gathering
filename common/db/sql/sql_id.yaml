@@ -1,5 +1,6 @@
 select_get_news: select_get_news
-get_users_login: get_users_login
+get_users_login_user_name: get_users_login_user_name
+get_users_login_token: get_users_login_token
 select_get_news_all: select_get_news_all
 select_get_users_all: select_get_users_all
 put_news: put_news

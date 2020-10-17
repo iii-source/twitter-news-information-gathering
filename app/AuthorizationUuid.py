@@ -18,7 +18,7 @@ class AuthorizationUuid:
     # users_login情報取得
     def __get_users_login(self):
         self.get_results = self.postgres_instance.select(
-            sql_id_yaml['get_users_login'],
+            sql_id_yaml['get_users_login_user_name'],
             self.auth.username()
         )
 

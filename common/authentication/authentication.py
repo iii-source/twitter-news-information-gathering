@@ -30,7 +30,7 @@ def check_headers_uuid(postgres_instance):
     # X-Request-IDをkeyにしてDB検索
 
     users_login_data = postgres_instance.select(
-        sql_id_yaml['get_users_login'],
+        sql_id_yaml['get_users_login_token'],
         x_request_id
     )
     # X-Request-ID(uuid)が存在しなかった場合
