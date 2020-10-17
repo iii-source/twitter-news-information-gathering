@@ -29,3 +29,41 @@
   - Basic64を使用しuser,password認証を実装しセキュリティ面で
   必要事項を考慮しました。
   - 認証後、権限のあるuuidを発行し認可してます。
+
+---
+
+#### 使用方法(未完成)
+
+1. Basic認証で`Username: hogehoge`, `Password: foo` を入力。 <br>
+   https://xxxx/user/login を実行 tokenが返却される。
+
+   ```
+   (例)
+    {
+        "records": [
+            {
+                "login_time": "Sat, 17 Oct 2020 23:28:08 GMT",
+                "token": "7c39b8bf-b670-493a-bbf9-51af0e1c0421",
+                "user_name": "hogehoge"
+            }
+        ]
+    }
+   ```
+
+2. 1.で取得したtokenをheaderに付与。 `X-Request-ID: 1.token`を入力。 <br>
+   https://xxxx/news/2 を実行。 必要な情報が取得可能
+
+    ```
+    (例)
+       {
+        "records": [
+            {
+                "description": "english discription2",
+                "news_date": "2020-08-09",
+                "newsid": 2,
+                "title": "title2",
+                "url": "https://hogehoge2"
+            }
+        ]
+    }
+    ```
