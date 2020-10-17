@@ -14,7 +14,7 @@ get_users_login:
   from
     users_login
   where
-    user_name = %s
+    token = %s
 
 post_news:
   insert into

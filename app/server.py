@@ -5,6 +5,7 @@ from flask import Flask, request
 from app import information_gathering as info_gathe
 from app import sql_id_yaml
 from app import AuthorizationUuid
+from common.authentication.authentication import check_headers_uuid
 from common.db import Database as Database
 from common.response_message import response, error_response
 from common.validate.validate import validate_schema
@@ -39,45 +40,80 @@ def __get_authentication(username):
 
 @app.route('/news/<newsid>', methods=["GET"])
 def news(newsid):
-    return postgres_instance.select(
-        sql_id_yaml['select_get_news'],
-        newsid
-    )
+    # uuidのチェック
+    result = check_headers_uuid(postgres_instance)
+    if result is 'OK':
+        # 正常応答だった場合
+        return postgres_instance.select(
+            sql_id_yaml['select_get_news'],
+            newsid
+        )
+    else:
+        # エラーだった場合
+        return result
 
 
 # TODO デコレーターからデコレーター呼び出し validate_schema(validate_json)
 @app.route('/news/<newsid>', methods=["PUT"])
 @validate_schema
 def put_news(newsid):
-    return postgres_instance.update(
-        sql_id_yaml['put_news'],
-        *list(request.get_json().values()),
-        where_id=newsid
-    )
+    # uuidのチェック
+    result = check_headers_uuid(postgres_instance)
+    if result is 'OK':
+        # 正常応答だった場合
+        return postgres_instance.update(
+            sql_id_yaml['put_news'],
+            *list(request.get_json().values()),
+            where_id=newsid
+        )
+    else:
+        # エラーだった場合
+        return result
 
 
 @app.route('/news/<newsid>', methods=["DELETE"])
 def delete_news(newsid):
-    return postgres_instance.delete(
-        sql_id_yaml['delete_news'],
-        newsid
-    )
+    # uuidのチェック
+    result = check_headers_uuid(postgres_instance)
+    if result is 'OK':
+        # 正常応答だった場合
+        return postgres_instance.delete(
+            sql_id_yaml['delete_news'],
+            newsid
+        )
+    else:
+        # エラーだった場合
+        return result
 
 
 @app.route('/news/', methods=["GET"])
 def news_all():
-    return postgres_instance.select(
-        sql_id_yaml['select_get_news_all']
-    )
+    # uuidのチェック
+    result = check_headers_uuid(postgres_instance)
+    if result is 'OK':
+        # 正常応答だった場合
+        return postgres_instance.select(
+            sql_id_yaml['select_get_news_all']
+        )
+    else:
+        # エラーだった場合
+        return result
 
 
 @app.route('/news/', methods=["POST"])
 @validate_schema
 def post_news():
-    return postgres_instance.insert(
-        sql_id_yaml['post_news'],
-        list(request.get_json().values())
-    )
+    # uuidのチェック
+    result = check_headers_uuid(postgres_instance)
+    if result is 'OK':
+        # 正常応答だった場合
+        return postgres_instance.insert(
+            sql_id_yaml['post_news'],
+            list(request.get_json().values())
+        )
+    else:
+        # エラーだった場合
+        return result
 
 
 # TODO ここら辺全般の処理を外出ししたい デコレーターを使用してチェックしたい(ここに書きたくない)
