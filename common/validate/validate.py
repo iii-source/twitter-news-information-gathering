@@ -44,5 +44,6 @@ def validate_schema(f):
             validate(request.json, schema)
         except ValidationError as e:
             return error_response_400()
+        # 呼び出し元の関数に戻る
         return f(*args, **kw)
     return wrapper
