@@ -44,7 +44,7 @@ def check_headers_uuid(postgres_instance):
     if EXPIRATION_TIME > (now_time - login_time):
         # X-Request-IDが一致している + 有効期限内だった場合 次の処理へ進む
         print("有効期限内")
-        return 'OK'
+        return users_login_data
     elif EXPIRATION_TIME <= (now_time - login_time):
         # X-Request-IDが一致していない or 有効期限外だった場合
         print("有効期限切れ")

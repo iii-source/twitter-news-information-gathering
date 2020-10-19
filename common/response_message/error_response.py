@@ -11,6 +11,16 @@ def error_response_400():
     return response_dict
 
 
+def error_response_403():
+    response_dict = {}
+    response_dict_child = {}
+    response_dict['message'] = 'You do not have access to this API.'
+    response_dict_child['code'] = 403
+    response_dict_child['url_ref'] = API_DOCUMENTS
+    response_dict['errors'] = response_dict_child
+    return response_dict
+
+
 def error_response_403_no_uuid():
     response_dict = {}
     response_dict_child = {}

@@ -10,7 +10,8 @@ get_users_login_user_name:
   select
     user_name,
     token,
-    login_time
+    login_time,
+    access_level
   from
     users_login
   where
@@ -20,7 +21,8 @@ get_users_login_token:
   select
     user_name,
     token,
-    login_time
+    login_time,
+    access_level
   from
     users_login
   where
