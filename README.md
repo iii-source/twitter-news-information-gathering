@@ -67,3 +67,13 @@
         ]
     }
     ```
+
+#### 公開API(未完成)
+- 一般公開しているAPI一覧です。
+
+|  URL | HTTPメソッド  |  Description  |
+| ---- | ---- | ---- |
+|  https:// user/login  | GET |  認証チェックを行い、認証後tokenが発行されます。  |
+|  https:// news/newsid  | PUT | newsid(特定の数字)に紐づくDescriptionを更新  |
+|  https:// news/newsid  | GET | newsid(特定の数字)に紐づくnewsを取得  |
+|  https:// news/  | GET | 全てのnewsを取得  |
