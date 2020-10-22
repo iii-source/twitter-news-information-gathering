@@ -11,7 +11,7 @@ URL_REF = 'https://iii-source.github.io/public/' \
 @pytest.mark.parametrize("inputs", list(td.get_test_auth().values()),
                          ids=list(td.get_test_auth().keys()))
 def constant_uuid(inputs):
-    result = ro.get_request_with_auth(get_url(), inputs['user'], inputs['password'])
+    result = ro.get_request_with_auth(inputs['user'], inputs['password'])
     # tokenを取得
     return max(record['token'] for record in result['records'])
 
@@ -21,7 +21,7 @@ def constant_uuid(inputs):
                          ids=list(td.get_test_auth().keys()))
 def test_user_login01(inputs, constant_uuid):
     # リクエストAPI用jsonデータ作成
-    result = ro.get_request_with_auth(get_url(), inputs['user'], inputs['password'])
+    result = ro.get_request_with_auth(inputs['user'], inputs['password'])
 
     # fixtureでは事前にuuidを払い出してもらう(固定)
     # actual fixtureで事前に用意したuuid
@@ -52,11 +52,5 @@ def test_user_login01(inputs, constant_uuid):
                          ids=list(td.get_test_auth03().keys()))
 def test_user_login03(inputs):
     # リクエストAPI用jsonデータ作成
-    result = ro.get_request_with_auth(get_url(), inputs['user'], inputs['password'])
+    result = ro.get_request_with_auth(inputs['user'], inputs['password'])
     assert result.status_code == 401
-
-
-def get_url():
-    # テスト対象のURLを定義
-    return 'http://localhost:5000/user/login'
-

@@ -1,5 +1,7 @@
 import requests
 
+auth_url = 'http://localhost:5000/user/login'
+
 
 def get_request(url):
     """
@@ -18,14 +20,12 @@ def get_request(url):
     return requests.get(url).json()
 
 
-def get_request_with_auth(url, user, password):
+def get_request_with_auth(user, password):
     """
     getAPI用リクエスト(Basic認証用)
 
     Parameters
     ----------
-    url : string
-        リクエスト用url
     user : string
         basic認証用user
     password : string
@@ -36,7 +36,7 @@ def get_request_with_auth(url, user, password):
     result : dict
         jsonパースした(or そのままの)Responseデータ
     """
-    result = requests.get(url, auth=(user, password), verify=False)
+    result = requests.get(auth_url, auth=(user, password), verify=False)
     if 'json' in result.headers.get('content-type'):
         # application/jsonの場合jsonDecodeで返す
         return result.json()
