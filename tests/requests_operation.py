@@ -3,7 +3,7 @@ import requests
 auth_url = 'http://localhost:5000/user/login'
 
 
-def get_request(url):
+def get_request(url, headers):
     """
     getAPI用リクエスト
 
@@ -11,13 +11,15 @@ def get_request(url):
     ----------
     url : string
         リクエスト用url
+    headers : dict
+        認可用uuid
 
     Returns
     -------
     request_data : dict
         jsonパースしたResponseデータ
     """
-    return requests.get(url).json()
+    return requests.get(url, headers=headers).json()
 
 
 def get_request_with_auth(user, password):
@@ -64,7 +66,7 @@ def get_request_with_body(url, payload):
     return requests.get(url, json=payload).json()
 
 
-def post_request(url, payload):
+def post_request(url, payload, header):
     """
     getAPI用リクエスト
 
@@ -74,16 +76,18 @@ def post_request(url, payload):
         リクエスト用url
     payload : dict
         リクエスト用データ
+    header : string
+        認可用uuid
 
     Returns
     -------
     request_data : dict
         jsonパースしたResponseデータ
     """
-    return requests.post(url, json=payload).json()
+    return requests.post(url, json=payload, header=header).json()
 
 
-def put_request(url, payload):
+def put_request(url, payload, header):
     """
     getAPI用リクエスト
 
@@ -93,16 +97,18 @@ def put_request(url, payload):
         リクエスト用url
     payload : dict
         リクエスト用データ
+    header : string
+        認可用uuid
 
     Returns
     -------
     request_data : dict
         jsonパースしたResponseデータ
     """
-    return requests.put(url, json=payload).json()
+    return requests.put(url, json=payload, header=header).json()
 
 
-def delete_request(url):
+def delete_request(url, header):
     """
     getAPI用リクエスト
 
@@ -110,10 +116,12 @@ def delete_request(url):
     ----------
     url : string
         リクエスト用url
+    header : string
+        認可用uuid
 
     Returns
     -------
     request_data : dict
         jsonパースしたResponseデータ
     """
-    return requests.delete(url).json()
+    return requests.delete(url, header=header).json()
