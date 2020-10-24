@@ -1,13 +1,28 @@
+import pytest
+from tests.tests_data_param import get_auth_param as td
 from tests import requests_operation as ro
 
 URL_REF = 'https://iii-source.github.io/public/' \
           'swagger_ui/tweet_news/docs/dist/'
 
 
+# 有効期限内用uuid取得
+@pytest.fixture()
+@pytest.mark.parametrize("inputs", list(td.get_test_auth().values()),
+                         ids=list(td.get_test_auth().keys()))
+def constant_uuid(inputs):
+    result = ro.get_request_with_auth(inputs['user'], inputs['password'])
+    # tokenを取得
+    return max(record['token'] for record in result['records'])
+
+
 # 正常系 通常取得
-def test_news_all01():
+@pytest.mark.parametrize("inputs", list(td.get_test_auth().values()),
+                         ids=list(td.get_test_auth().keys()))
+def test_news_all01(inputs, constant_uuid):
+    headers = {'X-Request-ID': constant_uuid}
     # リクエストAPI用jsonデータ作成
-    result = ro.get_request(get_url())
+    result = ro.get_request(get_url(), headers)
     for i, record in enumerate(result['records']):
         if i == 0:
             assert record['newsid'] == 1
