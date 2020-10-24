@@ -66,7 +66,7 @@ def get_request_with_body(url, payload):
     return requests.get(url, json=payload).json()
 
 
-def post_request(url, payload, header):
+def post_request(url, payload, headers):
     """
     getAPI用リクエスト
 
@@ -76,7 +76,7 @@ def post_request(url, payload, header):
         リクエスト用url
     payload : dict
         リクエスト用データ
-    header : string
+    headers : dict
         認可用uuid
 
     Returns
@@ -84,10 +84,10 @@ def post_request(url, payload, header):
     request_data : dict
         jsonパースしたResponseデータ
     """
-    return requests.post(url, json=payload, header=header).json()
+    return requests.post(url, json=payload, headers=headers).json()
 
 
-def put_request(url, payload, header):
+def put_request(url, payload, headers):
     """
     getAPI用リクエスト
 
@@ -97,7 +97,7 @@ def put_request(url, payload, header):
         リクエスト用url
     payload : dict
         リクエスト用データ
-    header : string
+    headers : dict
         認可用uuid
 
     Returns
@@ -105,7 +105,7 @@ def put_request(url, payload, header):
     request_data : dict
         jsonパースしたResponseデータ
     """
-    return requests.put(url, json=payload, header=header).json()
+    return requests.put(url, json=payload, headers=headers).json()
 
 
 def delete_request(url, header):
