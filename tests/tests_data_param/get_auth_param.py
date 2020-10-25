@@ -1,3 +1,5 @@
+import os
+
 """
 テストケースに対するテスト名を定義
 """
@@ -13,6 +15,15 @@ Basic認証用のuser passを取得する
 
 def get_test_auth():
     test = {'user': 'john', 'password': 'hello'}
+    test_data = {
+        test_key: test,
+    }
+    return test_data
+
+
+def get_test_auth_admin():
+    test = {'user': os.environ['ADMIN_USER'],
+            'password': os.environ['ADMIN_PASSWORD']}
     test_data = {
         test_key: test,
     }
