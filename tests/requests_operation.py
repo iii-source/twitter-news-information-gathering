@@ -108,7 +108,7 @@ def put_request(url, payload, headers):
     return requests.put(url, json=payload, headers=headers).json()
 
 
-def delete_request(url, header):
+def delete_request(url, headers):
     """
     getAPI用リクエスト
 
@@ -116,7 +116,7 @@ def delete_request(url, header):
     ----------
     url : string
         リクエスト用url
-    header : string
+    headers : dict
         認可用uuid
 
     Returns
@@ -124,4 +124,4 @@ def delete_request(url, header):
     request_data : dict
         jsonパースしたResponseデータ
     """
-    return requests.delete(url, header=header).json()
+    return requests.delete(url, headers=headers).json()
