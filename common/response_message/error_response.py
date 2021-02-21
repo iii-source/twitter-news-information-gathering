@@ -11,6 +11,17 @@ def error_response_400():
     return response_dict
 
 
+def error_response_400_validation_error(f_name):
+    # 受け取った値によりエラーメッセージを動的に変更
+    response_dict = {}
+    response_dict_child = {}
+    response_dict['message'] = __error_message(f_name)
+    response_dict_child['code'] = 400
+    response_dict_child['url_ref'] = API_DOCUMENTS
+    response_dict['errors'] = response_dict_child
+    return response_dict
+
+
 def error_response_403():
     response_dict = {}
     response_dict_child = {}
@@ -53,4 +64,18 @@ def error_response_500():
     return response_dict
 
 
-
+def __error_message(f_name):
+    if f_name == 'POST_NEWS':
+        return ('The key or type is invalid, follow the example.\n'
+                 'ex:\n'
+                 '{\n'
+                 '  "description": str\n'
+                 '}\n'
+                )
+    elif f_name == 'POST_NEWS':
+        return ('The key or type is invalid, follow the example.\n'
+                'ex:\n'
+                '{\n'
+                '  "description": str\n'
+                '}\n'
+                )

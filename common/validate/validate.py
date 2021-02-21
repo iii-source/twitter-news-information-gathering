@@ -3,8 +3,7 @@ import os
 from functools import wraps
 from jsonschema import validate, ValidationError
 from flask import request
-
-from common.response_message.error_response import error_response_400
+from common.response_message import error_response as er_res
 
 
 # def validate_json(f):
@@ -43,7 +42,8 @@ def validate_schema(f):
         try:
             validate(request.json, schema)
         except ValidationError as e:
-            return error_response_400()
+            # 関数名によってエラーメッセージを変更。
+            return er_res.error_response_400_validation_error(f.__name__)
         # 呼び出し元の関数に戻る
         return f(*args, **kw)
     return wrapper
